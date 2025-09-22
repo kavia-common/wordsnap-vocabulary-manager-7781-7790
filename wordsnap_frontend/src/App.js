@@ -1,48 +1,32 @@
-import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./theme.css";
+import Header from "./components/Header";
+import Sidebar from "./components/Sidebar";
+import WordList from "./components/WordList";
+import WordDetails from "./components/WordDetails";
+import ModalRoot from "./components/Modals";
+import { WordSnapProvider } from "./context/WordSnapContext";
 
-// PUBLIC_INTERFACE
+/**
+ * PUBLIC_INTERFACE
+ * App is the root of the WordSnap UI, applying the Ocean Professional theme with:
+ * - Header with navigation
+ * - Main grid: Collections sidebar | Word list | Details panel
+ * - Modal dialogs for add/edit actions
+ */
 function App() {
-  const [theme, setTheme] = useState('light');
-
-  // Effect to apply theme to document element
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-  }, [theme]);
-
-  // PUBLIC_INTERFACE
-  const toggleTheme = () => {
-    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
-  };
-
   return (
-    <div className="App">
-      <header className="App-header">
-        <button 
-          className="theme-toggle" 
-          onClick={toggleTheme}
-          aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-        >
-          {theme === 'light' ? '🌙 Dark' : '☀️ Light'}
-        </button>
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <p>
-          Current theme: <strong>{theme}</strong>
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <WordSnapProvider>
+      <div className="app-shell">
+        <Header />
+        <main className="app-main">
+          <Sidebar />
+          <WordList />
+          <WordDetails />
+        </main>
+        <ModalRoot />
+      </div>
+    </WordSnapProvider>
   );
 }
 
